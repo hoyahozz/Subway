@@ -17,13 +17,14 @@ jobs:
           JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
 
       - name: Find in Jira ticket
-        uses: atlassian/gajira-find-issue-key@master
         id: jira-ticket
-        with:
-          from: commits
-
+        run: |
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+          JIRA_KEY=$(echo "$ISSUE_TITLE" | grep -oE '[A-Z]+-[0-9]+')
+          echo "JIRA_KEY=$JIRA_KEY" >> $GITHUB_ENV
+          
       - name: Close Jira issue
-        if: steps.jira-ticket.outputs.issue != ''
+        if: env.JIRA_KEY != ''
         uses: atlassian/gajira-transition@v3
         with:
           issue: ${{ steps.jira-ticket.outputs.issue }}
