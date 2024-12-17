@@ -27,5 +27,5 @@ jobs:
         if: env.JIRA_KEY != ''
         uses: atlassian/gajira-transition@v3
         with:
-          issue: ${{ steps.jira-ticket.outputs.issue }}
-          transition: "완료"
+          issue: ${{ env.JIRA_KEY }}
+          transition: 완료
