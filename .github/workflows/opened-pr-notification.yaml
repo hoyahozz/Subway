@@ -1,4 +1,4 @@
-name: Opend PR Notification
+name: Opened PR Notification
 on:
   pull_request:
     branches:
