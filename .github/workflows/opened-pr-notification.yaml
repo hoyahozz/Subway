@@ -1,0 +1,62 @@
+name: Opend PR Notification
+on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - opened
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: zulu
+          cache: gradle
+
+      - name: add local.properties
+        run: |
+          echo API_KEY=\"${{ secrets.API_KEY }}\" >> ./local.properties
+          
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+        
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Send notification
+        uses: Ilshidur/action-discord@0.3.2
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: ANDROID BOT
+          DISCORD_AVATAR: https://github.com/user-attachments/assets/2e1aadea-149e-4bef-ab67-1c6c6b8c21cd
+          DISCORD_EMBEDS: |
+            [
+              { 
+                "author": {
+                  "name": "${{ github.event.pull_request.user.login }}",
+                  "url": "https://github.com/user-attachments/assets/2e1aadea-149e-4bef-ab67-1c6c6b8c21cd",
+                  "icon_url": "${{ github.event.pull_request.user.avatar_url }}"
+                },
+                "title": "신규 PR이 등록되었습니돠! 24시간내로 리뷰해주세요! 🥳\n#${{ github.event.pull_request.number }} : ${{ github.event.pull_request.title }}",
+                "color": 10478271,
+                "description": "${{ github.event.pull_request.html_url }}",
+                "fields": [
+                  {
+                    "name": "Base Branch",
+                    "value": "${{ github.base_ref }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "Compare Branch",
+                    "value": "${{ github.head_ref }}",
+                    "inline": true
+                  }
+                ]
+              }
+            ]
