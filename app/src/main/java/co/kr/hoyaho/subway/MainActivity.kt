@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
             SubwayTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "hoyahozz",
+                        name = "hoyahozz .",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
