@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -11,6 +12,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -23,5 +25,9 @@ rootProject.name = "Subway"
 include(":app")
 include(":data")
 include(":domain")
-include(":feature:home")
-include(":feature:detail")
+
+// Feature
+include(
+    ":feature:home",
+    ":feature:detail"
+)
