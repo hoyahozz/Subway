@@ -29,5 +29,5 @@ include(":domain")
 // Feature
 include(
     ":feature:home",
-    ":feature:detail"
+    ":feature:detail",
 )

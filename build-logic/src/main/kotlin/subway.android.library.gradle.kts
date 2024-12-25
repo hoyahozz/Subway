@@ -5,6 +5,7 @@ import co.kr.hoyahozz.subway.configureTest
 
 plugins {
     id("com.android.library")
+    id("subway.kotlin.lint")
 }
 
 configureKotlinAndroid()
