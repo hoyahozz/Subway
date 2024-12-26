@@ -36,6 +36,6 @@ internal fun Project.configureDetekt() {
 
     val libs = extensions.libs
     dependencies {
-        "detektPlugins"(libs.findLibrary("verify.detektFormatting").get())
+        "detektPlugins"(libs.findLibrary("detekt.formatting").get())
     }
 }
