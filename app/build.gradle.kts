@@ -1,6 +1,7 @@
 plugins {
     id("subway.android.application")
     id("subway.android.compose")
+    id("subway.verify.lint")
 }
 
 android {
