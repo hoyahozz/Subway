@@ -29,7 +29,7 @@ internal fun Project.configureKtLint() {
     }
 }
 
-internal fun Project.configureVerifyDetekt() {
+internal fun Project.configureDetekt() {
     with(pluginManager) {
         apply("io.gitlab.arturbosch.detekt")
     }

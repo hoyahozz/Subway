@@ -1,8 +1,12 @@
+import co.kr.hoyahozz.subway.configureDetekt
 import co.kr.hoyahozz.subway.configureKtLint
-import co.kr.hoyahozz.subway.configureVerifyDetekt
+
+plugins {
+    id("org.jlleitschuh.gradle.ktlint")
+}
 
 configureKtLint()
-configureVerifyDetekt()
+configureDetekt()
 
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     // Target version of the generated JVM bytecode. It is used for type resolution.

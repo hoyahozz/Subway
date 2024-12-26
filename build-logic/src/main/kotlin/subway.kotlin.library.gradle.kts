@@ -3,7 +3,7 @@ import co.kr.hoyahozz.subway.configureTest
 
 plugins {
     kotlin("jvm")
-    id("subway.kotlin.lint")
+    id("subway.verify.lint")
 }
 
 configureKotlin()
