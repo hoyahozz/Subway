@@ -28,6 +28,7 @@ android {
 
 dependencies {
     implementation(projects.data)
+    implementation(projects.domain)
 
     implementation(libs.androidx.activity.compose)
 }

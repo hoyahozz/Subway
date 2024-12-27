@@ -9,8 +9,8 @@ JIRA_TICKET=$(echo "$BRANCH_NAME" | grep -oE '[A-Z]+-[0-9]+')
 # Prepend the JIRA ticket to the commit message if found
 if [ ! -z "$JIRA_TICKET" ]; then
     COMMIT_MSG=$(cat "$1")
-    # Avoid duplicating the ticket if already in the message
-    if [[ "$COMMIT_MSG" != "[$JIRA_TICKET]"* ]]; then
+    # Check if the message already starts with a ticket pattern like [SB-...]
+    if [[ ! "$COMMIT_MSG" =~ ^\[[A-Z]+-[0-9]+\] ]]; then
         # Format the ticket as [TICKET-231] and prepend it
         echo "[$JIRA_TICKET] $COMMIT_MSG" > "$1"
     fi
