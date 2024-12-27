@@ -8,7 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-internal fun DetailScreen(modifier: Modifier = Modifier) {
+internal fun HomeScreen(
+    modifier: Modifier,
+) {
     Scaffold(modifier = modifier.fillMaxSize()) { innerPadding ->
         Text(
             "Home",
