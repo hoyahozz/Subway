@@ -30,6 +30,7 @@ include(":domain")
 include(
     ":core:ui",
     ":core:navigation",
+    ":core:designsystem",
 )
 
 // Feature
