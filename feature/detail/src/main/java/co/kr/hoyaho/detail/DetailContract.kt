@@ -1,3 +1,3 @@
 package co.kr.hoyaho.detail
 
-class DetailContract
+internal class DetailContract
