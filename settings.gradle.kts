@@ -34,6 +34,7 @@ include(
 
 // Feature
 include(
+    ":feature:main",
     ":feature:home",
     ":feature:detail",
 )

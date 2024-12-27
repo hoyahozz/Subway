@@ -1,4 +1,4 @@
-package co.kr.hoyaho.subway.ui.theme
+package co.kr.hoyaho.main.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
