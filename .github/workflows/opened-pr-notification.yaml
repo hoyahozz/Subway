@@ -1,8 +1,6 @@
 name: Opened PR Notification
 on:
   pull_request:
-    branches:
-      - develop
     types:
       - opened
 

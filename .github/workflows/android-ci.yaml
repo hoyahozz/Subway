@@ -1,8 +1,6 @@
 name: Android CI
 on:
   pull_request:
-    branches:
-      - develop
 
 jobs:
   build:
@@ -20,6 +18,7 @@ jobs:
       - name: add local.properties
         run: |
           echo API_KEY=\"${{ secrets.API_KEY }}\" >> ./local.properties
+          echo BASE_API_URL=\"${{ secrets.BASE_API_URL }}\" >> ./local.properties
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
