@@ -27,7 +27,10 @@ include(":data")
 include(":domain")
 
 // Core
-include(":core:ui")
+include(
+    ":core:ui",
+    ":core:navigation",
+)
 
 // Feature
 include(
