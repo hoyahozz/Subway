@@ -460,9 +460,8 @@ naming:
 #    active: false
 #    excludes: ['**/*.kts']
 #    rootPackage: ''
-#  MatchingDeclarationName:
-#    active: true
-#    mustBeFirst: true
+  MatchingDeclarationName:
+    active: false
   MemberNameEqualsClassName:
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
 #    active: true

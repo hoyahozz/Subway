@@ -1,4 +1,8 @@
 import co.kr.hoyahozz.subway.setNamespace
+import java.util.Properties
+
+val localProperties = Properties()
+localProperties.load(project.rootProject.file("local.properties").bufferedReader())
 
 plugins {
     id("subway.android.library")
@@ -8,6 +12,11 @@ plugins {
 
 android {
     setNamespace("data")
+
+    defaultConfig {
+        buildConfigField("String", "BASE_API_URL", "${localProperties["BASE_API_URL"]}")
+        buildConfigField("String", "API_KEY", "${localProperties["API_KEY"]}")
+    }
 
     buildFeatures {
         buildConfig = true
