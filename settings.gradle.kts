@@ -26,6 +26,9 @@ include(":app")
 include(":data")
 include(":domain")
 
+// Core
+include(":core:ui")
+
 // Feature
 include(
     ":feature:home",
