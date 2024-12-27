@@ -1,0 +1,107 @@
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  approved:
+    if: github.event.review.state == 'APPROVED'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Approve Message
+        uses: Ilshidur/action-discord@0.3.2
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: ANDROID BOT
+          DISCORD_AVATAR: https://github.com/user-attachments/assets/2e1aadea-149e-4bef-ab67-1c6c6b8c21cd
+          DISCORD_EMBEDS: |
+            [
+              {
+                "title": "PR이 승인되었습니돠! 머지해주세요 ~! 🥳\n${{ github.event.pull_request.title }}",
+                "color": 10478271,
+                "description": "${{ github.event.review.html_url }}",
+                "fields": [
+                  {
+                    "name": "Reviewer",
+                    "value": "${{ github.event.review.user.login }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "Comment",
+                    "value": "${{ github.event.review.body }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "State",
+                    "value": "${{ github.event.review.state }}",
+                    "inline": true
+                  }
+                ]
+              }
+            ]
+
+  changes_requested:
+    if: github.event.review.state == 'changes_requested'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Comment Message
+        uses: Ilshidur/action-discord@0.3.2
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: ANDROID BOT
+          DISCORD_AVATAR: https://github.com/user-attachments/assets/2e1aadea-149e-4bef-ab67-1c6c6b8c21cd
+          DISCORD_EMBEDS: |
+            [
+              {
+                "title": "PR에 대한 수정 요청이 들어왔습니돠. 확인해주세요! ⚠️\n${{ github.event.pull_request.title }}",
+                "color": 13458524,
+                "description": "${{ github.event.review.html_url }}",
+                "fields": [
+                  {
+                    "name": "Reviewer",
+                    "value": "${{ github.event.review.user.login }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "Comment",
+                    "value": "${{ github.event.review.body }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "State",
+                    "value": "${{ github.event.review.state }}",
+                    "inline": true
+                  }
+                ]
+              }
+            ]
+
+  commented:
+    if: github.event.review.state == 'commented'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Comment Message
+        uses: Ilshidur/action-discord@0.3.2
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: ANDROID BOT
+          DISCORD_AVATAR: https://github.com/user-attachments/assets/2e1aadea-149e-4bef-ab67-1c6c6b8c21cd
+          DISCORD_EMBEDS: |
+            [
+              {
+                "title": "PR에 대한 코멘트가 등록되었습니돠! 확인해주세요! ✅\n${{ github.event.pull_request.title }}",
+                "color": 16187019,
+                "description": "${{ github.event.review.html_url }}",
+                "fields": [
+                  {
+                    "name": "Reviewer",
+                    "value": "${{ github.event.review.user.login }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "State",
+                    "value": "${{ github.event.review.state }}",
+                    "inline": true
+                  }
+                ]
+              }
+            ]
