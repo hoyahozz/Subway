@@ -686,7 +686,7 @@ style:
     active: true
   MaxLineLength:
 #    active: true
-    maxLineLength: 160
+    maxLineLength: 120
 #    excludePackageStatements: true
 #    excludeImportStatements: true
     excludeCommentStatements: true

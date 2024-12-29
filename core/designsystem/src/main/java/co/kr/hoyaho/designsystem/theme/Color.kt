@@ -1,4 +1,4 @@
-package co.kr.hoyaho.subway.ui.theme
+package co.kr.hoyaho.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 

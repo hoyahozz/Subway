@@ -20,7 +20,8 @@ internal fun Project.configureKtLint() {
                 "ktlint_standard_annotation" to "disabled",
                 "ktlint_standard_blank-line-before-declaration" to "disabled",
                 "ktlint_standard_string-template-indent" to "disabled",
-                "ktlint_standard_multiline-expression-wrapping" to "disabled"
+                "ktlint_standard_multiline-expression-wrapping" to "disabled",
+                "max_line_length" to "120"
             )
         )
         reporters {

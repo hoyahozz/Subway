@@ -15,6 +15,20 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildTypes {
+        getByName("debug") {
+            isMinifyEnabled = false
+        }
+
+        getByName("release") {
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
+        }
+    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -27,8 +41,9 @@ android {
 }
 
 dependencies {
-    implementation(projects.data)
-    implementation(projects.domain)
-
-    implementation(libs.androidx.activity.compose)
+    implementation(projects.core.navigation)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.ui)
+    implementation(projects.feature.main)
+    implementation(projects.feature.home)
 }
