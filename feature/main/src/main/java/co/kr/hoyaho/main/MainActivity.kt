@@ -7,7 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import co.kr.hoyaho.designsystem.theme.SubwayTheme
 import co.kr.hoyaho.main.ui.SubwayApp
 import co.kr.hoyaho.main.ui.rememberSubwayAppState
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
