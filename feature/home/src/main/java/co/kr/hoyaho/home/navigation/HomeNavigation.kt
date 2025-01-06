@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import co.kr.hoyaho.home.HomeRoute
 import co.kr.hoyaho.navigation.Route
 
-typealias HomeRoute = Route.Home
+private typealias HomeRoute = Route.Home
 
 fun NavController.navigateToHome(navOptions: NavOptions) = navigate(
     route = HomeRoute,
