@@ -9,6 +9,5 @@ android {
 }
 
 dependencies {
-    implementation(projects.data)
     implementation(libs.inject)
 }
