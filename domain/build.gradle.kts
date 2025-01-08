@@ -1,13 +1,9 @@
-import co.kr.hoyahozz.subway.setNamespace
-
 plugins {
-    id("subway.android.library")
-}
-
-android {
-    setNamespace("domain")
+    id("subway.kotlin.library")
+    id("subway.kotlin.hilt")
 }
 
 dependencies {
     implementation(libs.inject)
+    implementation(libs.coroutines.core)
 }
