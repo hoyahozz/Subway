@@ -8,10 +8,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-internal class HomeViewModel @Inject constructor() : BaseViewModel<HomeUiState, HomeUiEvent, HomeSideEffect>(
-    HomeUiState,
-) {
-    override suspend fun handleEvent(event: HomeUiEvent) {
-        // TODO
+internal class HomeViewModel @Inject constructor() :
+    BaseViewModel<HomeUiState, HomeUiEvent, HomeSideEffect>(HomeUiState()) {
+        override suspend fun handleEvent(event: HomeUiEvent) {
+            // TODO
+        }
     }
-}
