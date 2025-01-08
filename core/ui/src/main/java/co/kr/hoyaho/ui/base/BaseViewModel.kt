@@ -30,12 +30,12 @@ abstract class BaseViewModel<S : UiState, E : UiEvent, A : UiSideEffect>(
 
     protected abstract suspend fun handleEvent(event: E)
 
-    protected fun setState(reduce: S.() -> S) {
+    protected fun updateState(reduce: S.() -> S) {
         val state = currentState.reduce()
         _uiState.value = state
     }
 
-    protected fun setEffect(vararg builder: A) {
+    protected fun sendEffect(vararg builder: A) {
         for (effectValue in builder) {
             viewModelScope.launch { _effect.send(effectValue) }
         }
