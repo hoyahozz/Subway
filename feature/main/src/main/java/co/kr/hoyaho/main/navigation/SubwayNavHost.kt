@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
+import co.kr.hoyaho.detail.navigation.detailScreen
 import co.kr.hoyaho.home.navigation.homeNavGraph
 import co.kr.hoyaho.main.ui.SubwayAppState
 
@@ -26,7 +27,9 @@ fun SubwayNavHost(
         ) {
             homeNavGraph(
                 padding = paddingValues,
-            )
+            ) {
+                detailScreen()
+            }
         }
     }
 }
