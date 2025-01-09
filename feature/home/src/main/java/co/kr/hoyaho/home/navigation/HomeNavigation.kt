@@ -19,11 +19,12 @@ fun NavController.navigateToHome(navOptions: NavOptions) = navigate(
 
 fun NavGraphBuilder.homeNavGraph(
     padding: PaddingValues,
+    navigateToDetail: (lineNumber: String, stationName: String) -> Unit,
     homeDestination: NavGraphBuilder.() -> Unit,
 ) {
     navigation<HomeBaseRoute>(startDestination = HomeRoute) {
         composable<HomeRoute> {
-            HomeRoute(padding)
+            HomeRoute(padding, navigateToDetail)
         }
     }
     homeDestination()

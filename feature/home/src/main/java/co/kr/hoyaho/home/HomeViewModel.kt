@@ -34,6 +34,8 @@ internal class HomeViewModel @Inject constructor(
     }
 
     override suspend fun handleEvent(event: HomeUiEvent) {
-        // TODO
+        when (event) {
+            is HomeUiEvent.OnStationClicked -> sendEffect(HomeSideEffect.NavigateToDetail(event.station))
+        }
     }
 }

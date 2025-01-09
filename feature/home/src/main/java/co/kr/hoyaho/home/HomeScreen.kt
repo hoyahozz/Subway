@@ -1,10 +1,11 @@
 package co.kr.hoyaho.home
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -26,12 +27,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import co.kr.hoyaho.designsystem.theme.SubwayTheme
 import co.kr.hoyaho.domain.model.Station
 import co.kr.hoyaho.home.HomeContract.HomeSideEffect
+import co.kr.hoyaho.home.HomeContract.HomeUiEvent
 import co.kr.hoyaho.home.HomeContract.HomeUiState
 import co.kr.hoyaho.home.HomeContract.LoadState
 
 @Composable
 internal fun HomeRoute(
     paddingValues: PaddingValues,
+    navigateToDetail: (lineNumber: String, stationName: String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -40,13 +43,16 @@ internal fun HomeRoute(
     HomeScreen(
         paddingValues = paddingValues,
         state = uiState,
+        onStationClicked = { station ->
+            viewModel.setEvent(HomeUiEvent.OnStationClicked(station))
+        },
     )
 
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
-            if (effect is HomeSideEffect.ShowToast) {
-                // TODO App State 에서 관리하도록 수정
-                Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+            when (effect) {
+                is HomeSideEffect.ShowToast -> Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                is HomeSideEffect.NavigateToDetail -> navigateToDetail(effect.station.lineNumber, effect.station.name)
             }
         }
     }
@@ -56,6 +62,7 @@ internal fun HomeRoute(
 private fun HomeScreen(
     paddingValues: PaddingValues,
     state: HomeUiState,
+    onStationClicked: (Station) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -69,6 +76,7 @@ private fun HomeScreen(
 
             LoadState.Idle -> Stations(
                 state.stations,
+                onStationClicked = onStationClicked,
                 modifier = Modifier.fillMaxSize(),
             )
         }
@@ -78,15 +86,21 @@ private fun HomeScreen(
 @Composable
 private fun Stations(
     stations: List<Station>,
+    onStationClicked: (Station) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
+    LazyColumn(modifier = modifier) {
         itemsIndexed(stations) { _, station ->
-            Text("[${station.lineNumber}] - ${station.name}")
+            Text(
+                "[${station.lineNumber}] - ${station.name}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onStationClicked(station) }
+                    .padding(
+                        vertical = 8.dp,
+                        horizontal = 16.dp,
+                    ),
+            )
         }
     }
 }
@@ -104,6 +118,7 @@ private fun HomeScreenPreview(
             HomeScreen(
                 paddingValues = padding,
                 state = homeUiState,
+                onStationClicked = { },
             )
         }
     }
