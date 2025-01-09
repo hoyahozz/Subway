@@ -42,6 +42,6 @@ internal fun SearchSTNBySubwayLineInfo.toDomain(): List<Station> = stations.map(
 
 internal fun StationResponse.toDomain(): Station = Station(
     id = frCode,
-    title = stationName,
+    name = stationName,
     lineNumber = lineNum,
 )

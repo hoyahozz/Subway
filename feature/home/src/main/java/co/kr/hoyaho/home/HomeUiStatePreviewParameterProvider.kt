@@ -13,17 +13,17 @@ internal class HomeUiStatePreviewParameterProvider : PreviewParameterProvider<Ho
             stations = persistentListOf(
                 Station(
                     id = "1",
-                    title = "낙성대역",
+                    name = "낙성대역",
                     lineNumber = "2호선",
                 ),
                 Station(
-                    id = "1",
-                    title = "사당역",
+                    id = "2",
+                    name = "사당역",
                     lineNumber = "2호선",
                 ),
                 Station(
-                    id = "1",
-                    title = "방배역",
+                    id = "3",
+                    name = "방배역",
                     lineNumber = "2호선",
                 ),
             ),

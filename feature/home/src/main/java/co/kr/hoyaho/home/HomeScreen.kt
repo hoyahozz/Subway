@@ -86,7 +86,7 @@ private fun Stations(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         itemsIndexed(stations) { _, station ->
-            Text("[${station.lineNumber}] - ${station.title}")
+            Text("[${station.lineNumber}] - ${station.name}")
         }
     }
 }
