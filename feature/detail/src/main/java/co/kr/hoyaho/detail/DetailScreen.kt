@@ -8,11 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-internal fun DetailScreen(modifier: Modifier = Modifier) {
-    Scaffold(modifier = modifier.fillMaxSize()) { innerPadding ->
+internal fun DetailScreen(
+    lineNumber: String,
+    stationName: String,
+) {
+    Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
         Text(
-            "Detail",
-            modifier = Modifier.padding(innerPadding),
+            "Detail, $lineNumber - $stationName",
+            modifier = Modifier.padding(padding),
         )
     }
 }

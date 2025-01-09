@@ -7,5 +7,8 @@ sealed interface Route {
     data object Home : Route
 
     @Serializable
-    data object Detail : Route
+    data class Detail(
+        val lineNumber: String,
+        val stationName: String,
+    ) : Route
 }
