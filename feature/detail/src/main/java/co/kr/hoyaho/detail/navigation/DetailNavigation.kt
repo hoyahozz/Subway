@@ -5,24 +5,22 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import co.kr.hoyaho.detail.DetailScreen
+import co.kr.hoyaho.detail.DetailRoute
 import co.kr.hoyaho.navigation.Route
-
-private typealias DetailRoute = Route.Detail
 
 fun NavController.navigateToDetail(
     lineNumber: String,
     stationName: String,
     navOptions: NavOptionsBuilder.() -> Unit = {},
 ) = navigate(
-    route = DetailRoute(lineNumber, stationName),
+    route = Route.Detail(lineNumber, stationName),
     builder = navOptions,
 )
 
 fun NavGraphBuilder.detailScreen() {
-    composable<DetailRoute> { navBackstackEntry ->
-        navBackstackEntry.toRoute<DetailRoute>().apply {
-            DetailScreen(lineNumber, stationName)
+    composable<Route.Detail> { navBackstackEntry ->
+        navBackstackEntry.toRoute<Route.Detail>().apply {
+            DetailRoute(lineNumber, stationName)
         }
     }
 }
