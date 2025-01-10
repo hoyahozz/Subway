@@ -16,9 +16,12 @@ internal class HomeContract {
         Idle,
     }
 
-    data object HomeUiEvent : UiEvent
+    sealed interface HomeUiEvent : UiEvent {
+        data class OnStationClicked(val station: Station) : HomeUiEvent
+    }
 
     sealed interface HomeSideEffect : UiSideEffect {
         data class ShowToast(val message: String) : HomeSideEffect
+        data class NavigateToDetail(val station: Station) : HomeSideEffect
     }
 }

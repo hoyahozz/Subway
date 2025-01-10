@@ -25,5 +25,5 @@ class SubwayAppState(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = Route.Home
+    val startDestination = Route.HomeBase
 }

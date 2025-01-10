@@ -27,13 +27,15 @@ internal class HomeViewModel @Inject constructor(
                     }
                 },
                 onFailure = { throwable ->
-                    sendEffect(HomeSideEffect.ShowToast(throwable.message ?: ""))
+                    sendEffect(HomeSideEffect.ShowToast(throwable.message ?: "알 수 없는 오류가 발생하였습니다."))
                 },
             )
         }
     }
 
     override suspend fun handleEvent(event: HomeUiEvent) {
-        // TODO
+        when (event) {
+            is HomeUiEvent.OnStationClicked -> sendEffect(HomeSideEffect.NavigateToDetail(event.station))
+        }
     }
 }

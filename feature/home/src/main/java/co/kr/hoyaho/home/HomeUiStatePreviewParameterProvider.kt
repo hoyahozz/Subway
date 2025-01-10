@@ -9,6 +9,9 @@ import kotlinx.collections.immutable.persistentListOf
 internal class HomeUiStatePreviewParameterProvider : PreviewParameterProvider<HomeUiState> {
     override val values: Sequence<HomeUiState> = sequenceOf(
         HomeUiState(
+            loadState = LoadState.Loading,
+        ),
+        HomeUiState(
             loadState = LoadState.Idle,
             stations = persistentListOf(
                 Station(
