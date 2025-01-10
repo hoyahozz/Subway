@@ -25,9 +25,9 @@ internal data class PassengerStatsResponse(
     val lineNumber: String,
     @SerialName("SBWY_STNS_NM")
     val stationName: String,
-    @SerialName("GTOFF_TNOPE")
-    val getOnNumberOfPassenger: Double,
     @SerialName("GTON_TNOPE")
+    val getOnNumberOfPassenger: Double,
+    @SerialName("GTOFF_TNOPE")
     val getOffNumberOfPassenger: Double,
     @SerialName("REG_YMD")
     val registerDate: String,
