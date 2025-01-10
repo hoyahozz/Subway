@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class DetailViewModel @Inject constructor() : BaseViewModel<DetailUiState, DetailUiEvent, DetailSideEffect>(
-    DetailUiState,
+    DetailUiState(),
 ) {
     override suspend fun handleEvent(event: DetailUiEvent) {
         // TODO
