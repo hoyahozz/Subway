@@ -27,7 +27,7 @@ internal class HomeViewModel @Inject constructor(
                     }
                 },
                 onFailure = { throwable ->
-                    sendEffect(HomeSideEffect.ShowToast(throwable.message ?: ""))
+                    sendEffect(HomeSideEffect.ShowToast(throwable.message ?: "알 수 없는 오류가 발생하였습니다."))
                 },
             )
         }
