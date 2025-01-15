@@ -1,9 +1,11 @@
+import co.kr.hoyahozz.subway.configureCircuit
 import co.kr.hoyahozz.subway.configureHiltAndroid
 import co.kr.hoyahozz.subway.libs
 
 plugins {
     id("subway.android.library")
     id("subway.android.compose")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -12,6 +14,7 @@ android {
     }
 }
 configureHiltAndroid()
+configureCircuit()
 
 dependencies {
     implementation(project(":domain"))

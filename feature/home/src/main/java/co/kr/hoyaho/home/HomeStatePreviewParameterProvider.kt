@@ -2,17 +2,12 @@ package co.kr.hoyaho.home
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import co.kr.hoyaho.domain.model.Station
-import co.kr.hoyaho.home.HomeContract.HomeUiState
-import co.kr.hoyaho.home.HomeContract.LoadState
 import kotlinx.collections.immutable.persistentListOf
 
-internal class HomeUiStatePreviewParameterProvider : PreviewParameterProvider<HomeUiState> {
-    override val values: Sequence<HomeUiState> = sequenceOf(
-        HomeUiState(
-            loadState = LoadState.Loading,
-        ),
-        HomeUiState(
-            loadState = LoadState.Idle,
+internal class HomeStatePreviewParameterProvider : PreviewParameterProvider<HomeScreen.State> {
+    override val values: Sequence<HomeScreen.State> = sequenceOf(
+        HomeScreen.State.Loading,
+        HomeScreen.State.Idle(
             stations = persistentListOf(
                 Station(
                     id = "1",
@@ -30,6 +25,7 @@ internal class HomeUiStatePreviewParameterProvider : PreviewParameterProvider<Ho
                     lineNumber = "2호선",
                 ),
             ),
+            eventSink = { },
         ),
     )
 }

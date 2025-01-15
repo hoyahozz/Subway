@@ -1,82 +1,66 @@
 package co.kr.hoyaho.home
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import co.kr.hoyaho.designsystem.theme.SubwayTheme
 import co.kr.hoyaho.domain.model.Station
-import co.kr.hoyaho.home.HomeContract.HomeSideEffect
-import co.kr.hoyaho.home.HomeContract.HomeUiEvent
-import co.kr.hoyaho.home.HomeContract.HomeUiState
-import co.kr.hoyaho.home.HomeContract.LoadState
+import co.kr.hoyaho.home.HomeScreen.Event.OnStationClicked
+import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.screen.Screen
+import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.parcelize.Parcelize
 
-@Composable
-internal fun HomeRoute(
-    paddingValues: PaddingValues,
-    navigateToDetail: (lineNumber: String, stationName: String) -> Unit,
-    viewModel: HomeViewModel = hiltViewModel(),
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
+@Parcelize
+data object HomeScreen : Screen {
+    sealed interface State : CircuitUiState {
+        data object Loading : State
 
-    HomeScreen(
-        paddingValues = paddingValues,
-        state = uiState,
-        onStationClicked = { station ->
-            viewModel.setEvent(HomeUiEvent.OnStationClicked(station))
-        },
-    )
+        data class Idle(
+            val stations: PersistentList<Station>,
+            val eventSink: (Event) -> Unit,
+        ) : State
+    }
 
-    LaunchedEffect(viewModel.effect) {
-        viewModel.effect.collect { effect ->
-            when (effect) {
-                is HomeSideEffect.ShowToast -> Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
-                is HomeSideEffect.NavigateToDetail -> navigateToDetail(effect.station.lineNumber, effect.station.name)
-            }
-        }
+    sealed interface Event : CircuitUiEvent {
+        data class OnStationClicked(val station: Station) : Event
     }
 }
 
+@CircuitInject(HomeScreen::class, ActivityRetainedComponent::class)
 @Composable
-private fun HomeScreen(
-    paddingValues: PaddingValues,
-    state: HomeUiState,
-    onStationClicked: (Station) -> Unit,
+internal fun Home(
+    state: HomeScreen.State,
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues),
+        modifier = modifier.fillMaxSize(),
     ) {
-        when (state.loadState) {
-            LoadState.Loading -> CircularProgressIndicator(
+        when (state) {
+            HomeScreen.State.Loading -> CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
             )
 
-            LoadState.Idle -> Stations(
-                state.stations,
-                onStationClicked = onStationClicked,
+            is HomeScreen.State.Idle -> Stations(
+                stations = state.stations,
+                onStationClicked = { station ->
+                    state.eventSink(OnStationClicked(station))
+                },
                 modifier = Modifier.fillMaxSize(),
             )
         }
@@ -105,21 +89,16 @@ private fun Stations(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-private fun HomeScreenPreview(
-    @PreviewParameter(HomeUiStatePreviewParameterProvider::class)
-    homeUiState: HomeUiState,
+private fun HomePreview(
+    @PreviewParameter(HomeStatePreviewParameterProvider::class)
+    state: HomeScreen.State,
 ) {
     SubwayTheme {
-        Scaffold(
-            containerColor = Color.White,
-        ) { padding ->
-            HomeScreen(
-                paddingValues = padding,
-                state = homeUiState,
-                onStationClicked = { },
-            )
-        }
+        Home(
+            state = state,
+            modifier = Modifier,
+        )
     }
 }

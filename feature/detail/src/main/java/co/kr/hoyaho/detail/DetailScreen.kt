@@ -1,70 +1,50 @@
 package co.kr.hoyaho.detail
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import co.kr.hoyaho.designsystem.theme.SubwayTheme
-import co.kr.hoyaho.detail.DetailContract.DetailSideEffect
-import co.kr.hoyaho.detail.DetailContract.DetailUiState
-import co.kr.hoyaho.detail.DetailContract.LoadState
+import co.kr.hoyaho.domain.model.StationPassengerStats
+import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.screen.Screen
+import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.parcelize.Parcelize
 
-@Composable
-internal fun DetailRoute(
-    lineNumber: String,
-    stationName: String,
-    viewModel: DetailViewModel = hiltViewModel(),
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
+@Parcelize
+data class DetailScreen(
+    val lineNumber: String,
+    val stationName: String,
+) : Screen {
+    sealed interface State : CircuitUiState {
+        data object Loading : State
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
-        DetailScreen(
-            state = uiState,
-            modifier = Modifier.padding(padding),
-        )
-    }
-
-    LaunchedEffect(lineNumber, stationName) {
-        viewModel.getRecentStationPassenger(lineNumber, stationName)
-    }
-
-    LaunchedEffect(viewModel.effect) {
-        viewModel.effect.collect { effect ->
-            if (effect is DetailSideEffect.ShowToast) {
-                Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
-            }
-        }
+        data class Idle(
+            val stats: StationPassengerStats? = null,
+        ) : State
     }
 }
 
+@CircuitInject(DetailScreen::class, ActivityRetainedComponent::class)
 @Composable
-private fun DetailScreen(
-    state: DetailUiState,
+internal fun Detail(
+    state: DetailScreen.State,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
-        when (state.loadState) {
-            LoadState.Loading -> CircularProgressIndicator(
+        when (state) {
+            DetailScreen.State.Loading -> CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
             )
 
-            LoadState.Idle -> state.stats?.let { stats ->
+            is DetailScreen.State.Idle -> state.stats?.let { stats ->
                 Column(
                     modifier = Modifier.align(Alignment.Center),
                 ) {
@@ -81,20 +61,13 @@ private fun DetailScreen(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun DetailScreenPreview(
-    @PreviewParameter(DetailUiStatePreviewParameterProvider::class)
-    state: DetailUiState,
+    @PreviewParameter(DetailStatePreviewParameterProvider::class)
+    state: DetailScreen.State,
 ) {
     SubwayTheme {
-        Scaffold(
-            containerColor = Color.White,
-        ) { padding ->
-            DetailScreen(
-                state = state,
-                modifier = Modifier.padding(padding),
-            )
-        }
+        Detail(state = state)
     }
 }
