@@ -9,6 +9,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.feature.detail)
+
     implementation(libs.kotlinx.immutable)
 }
 

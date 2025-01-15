@@ -4,9 +4,10 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
+import co.kr.hoyaho.detail.DetailScreen
 import co.kr.hoyaho.domain.usecase.GetStationsUseCase
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
@@ -22,7 +23,7 @@ class HomePresenter @AssistedInject constructor(
 ) : Presenter<HomeScreen.State> {
     @Composable
     override fun present(): HomeScreen.State {
-        val state by produceState<HomeScreen.State>(HomeScreen.State.Loading) {
+        val state by produceRetainedState<HomeScreen.State>(HomeScreen.State.Loading) {
             val stations = getStationsUseCase().getOrElse {
                 // 더 좋은 방법이 없을까?
                 Toast.makeText(appContext, "알 수 없는 오류가 발생하였습니다.", Toast.LENGTH_SHORT).show()
@@ -34,8 +35,12 @@ class HomePresenter @AssistedInject constructor(
                 eventSink = { event ->
                     when (event) {
                         is HomeScreen.Event.OnStationClicked -> {
-                            // TODO navigate
-                            navigator
+                            navigator.goTo(
+                                DetailScreen(
+                                    lineNumber = event.station.lineNumber,
+                                    stationName = event.station.name,
+                                ),
+                            )
                         }
                     }
                 },

@@ -36,10 +36,6 @@ data object HomeScreen : Screen {
         ) : State
     }
 
-    sealed interface SideEffect {
-        data class ShowToast(val message: String) : SideEffect
-    }
-
     sealed interface Event : CircuitUiEvent {
         data class OnStationClicked(val station: Station) : Event
     }
