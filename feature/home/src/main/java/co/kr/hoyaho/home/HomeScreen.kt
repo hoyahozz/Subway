@@ -23,6 +23,7 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -31,7 +32,7 @@ data object HomeScreen : Screen {
         data object Loading : State
 
         data class Idle(
-            val stations: List<Station> = emptyList(),
+            val stations: PersistentList<Station>,
             val eventSink: (Event) -> Unit,
         ) : State
     }
